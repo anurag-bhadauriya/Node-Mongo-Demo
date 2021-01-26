@@ -1,16 +1,15 @@
-const userCollection = require('../connections/UserConnection');
-const policyInfoCollection = require('../connections/PolicyInfoConnection');
 const uploadUtil = require('../utilities/uploadUtil');
+const dbConnection = require('../connections/db-connection');
 
 let apiService ={}
 
 apiService.getPolicyInfoByUsername = (userName)=>{
     let query = { firstName:  { $regex : new RegExp( userName, "i") }};
-    return userCollection.getUserCollection().then( userModel=>{
+    return dbConnection.getUserCollection().then( userModel=>{
         return userModel.find(query).then(userDoc=>{
             if(userDoc.length >0){
                 let policyInfoQuery = { userId:  { $regex : new RegExp( userDoc[0]._id , "i") }};
-                return policyInfoCollection.getPolicyInfoCollection().then(policyInfoModel =>{
+                return dbConnection.getPolicyInfoCollection().then(policyInfoModel =>{
                     return policyInfoModel.find(policyInfoQuery).then(policyDocs =>{
                         if(policyDocs.length >0)
                             return policyDocs;
@@ -27,8 +26,8 @@ apiService.getPolicyInfoByUsername = (userName)=>{
 
 apiService.getAggregatePolicyByEachUser = ()=>{
     let query = { $group: {_id: "$userId", data: { $push: "$$ROOT"}}};
-    return policyInfoCollection.getPolicyInfoCollection().then(policyInfoModel=>{
-        return policyInfoModel.aggregate([query]).then(data=>{
+    return dbConnection.getPolicyInfoCollection().then(policyInfoModel=>{
+        return policyInfoModel.aggregate([query]).then(policyData=>{
             if(policyData.length >0)
                 return policyData;
             else

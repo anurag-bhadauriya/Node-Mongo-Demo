@@ -1,15 +1,10 @@
-const agentCollection = require('../connections/AgentConnection');
-const userAccountCollection = require('../connections/UserAccountConnection');
-const userCollection = require('../connections/UserConnection');
-const lobCollection = require('../connections/LobConnection');
-const policyCarrierCollection = require('../connections/PolicyCarrierConnection');
-const policyInfoCollection = require('../connections/PolicyInfoConnection');
+const dbConnection = require('../connections/db-connection');
 
 let uploadUtil ={};
 
 uploadUtil.insertToAgentCollection =(agentData)=>{
     let query = { agentName:  { $regex : new RegExp( agentData[0].agentName, "i") }};
-    return agentCollection.getAgentCollection().then(agentModel =>{
+    return dbConnection.getAgentCollection().then(agentModel =>{
         return agentModel.findOne(query).then(agentDoc =>{
             if(agentDoc !== null)
                 return agentDoc;
@@ -28,7 +23,7 @@ uploadUtil.insertToAgentCollection =(agentData)=>{
 }
 
 uploadUtil.insertToUserAccountCollection =(userAccountData)=>{
-    return userAccountCollection.getUserAccountCollection().then(userAccountModel=>{
+    return dbConnection.getUserAccountCollection().then(userAccountModel=>{
         return userAccountModel.insertMany(userAccountData).then(insertResp=>{
             if(insertResp)
                 return insertResp;
@@ -41,7 +36,7 @@ uploadUtil.insertToUserAccountCollection =(userAccountData)=>{
 }
 
 uploadUtil.insertToUserCollection =(userData)=>{
-    return userCollection.getUserCollection().then(userModel=>{
+    return dbConnection.getUserCollection().then(userModel=>{
         return userModel.insertMany(userData).then(insertResp=>{
             if(insertResp)
                 return insertResp;
@@ -55,7 +50,7 @@ uploadUtil.insertToUserCollection =(userData)=>{
 
 uploadUtil.insertToLobCollection = (lobData)=>{
     let query = { categoryName:  { $regex : new RegExp( lobData[0].categoryName, "i") }};
-    return lobCollection.getLobCollection().then(lobModal =>{
+    return dbConnection.getLobCollection().then(lobModal =>{
         return lobModal.findOne(query).then(lobDoc =>{
             if(lobDoc !== null)
                 return lobDoc;
@@ -70,7 +65,7 @@ uploadUtil.insertToLobCollection = (lobData)=>{
 
 uploadUtil.insertToPolicyCarrierCollection =(policyCarrierData)=>{
     let query = { companyName:  { $regex : new RegExp( policyCarrierData[0].companyName, "i") }};
-    return policyCarrierCollection.getPolicyCarrierCollection().then(policyCarrierModel=>{
+    return dbConnection.getPolicyCarrierCollection().then(policyCarrierModel=>{
         return policyCarrierModel.findOne(query).then(policyCarrierDoc=>{
             if(policyCarrierDoc !==null)
                 return policyCarrierDoc;
@@ -84,7 +79,7 @@ uploadUtil.insertToPolicyCarrierCollection =(policyCarrierData)=>{
 }
 
 uploadUtil.insertToPolicyInfoCollection =(policyInfoData)=>{
-    return policyInfoCollection.getPolicyInfoCollection().then(policyInfoModel=>{
+    return dbConnection.getPolicyInfoCollection().then(policyInfoModel=>{
         return policyInfoModel.insertMany(policyInfoData).then(insertResp=>{
             if(insertResp)
                 return insertResp;

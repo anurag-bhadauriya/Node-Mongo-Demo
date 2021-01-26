@@ -15,6 +15,19 @@ Task 1:
 3) API to provide aggregated policy by each user.
 4) Consider each info as a different collection in MongoDB (Agent, User, User's Account, LOB, Carrier, Policy).
 
-Task 2:
-1) Track real-time CPU utilization of the node server and on 70% usage restart the server.
-2) Create a post-service that takes the message, day, and time in body parameters and it inserts that message into DB at that particular day and time.
+#API List
+
+##1 API to upload the CSV filein mongoDb using worker thread
+POST : http://localhost:3000/api/upload
+Body : in form of key value, where key = data, value = csv file
+
+##2 API to uplload the CSV file using async method
+POST : http://localhost:3000/api/upload/async
+Body : in form of key value, where key = data, value = csv file
+
+##3 API to get the aggregate policy data for each user
+GET : http://localhost:3000/api/get-aggregate-policy
+
+##4 API to get the policy information by username
+GET : http://localhost:3000/api/getpolicyinfo/{userName}
+queryparams: username to be mentioned in the url

@@ -1,9 +1,4 @@
-const agentCollection = require('../connections/AgentConnection');
-const userAccountCollection = require('../connections/UserAccountConnection');
-const userCollection = require('../connections/UserConnection');
-const lobCollection = require('../connections/LobConnection');
-const policyCarrierCollection = require('../connections/PolicyCarrierConnection');
-const policyInfoCollection = require('../connections/PolicyInfoConnection');
+const dbConnection = require('../connections/db-connection');
 
 const agentData = [{
     agentName: "John Doe"
@@ -47,23 +42,23 @@ const PolicyInfoData =[{
 }];
 
 exports.setupDb = ()=>{
-    return agentCollection.getAgentCollection().then((agCollection)=>{
-        return agCollection.insertMany(agentData).then( data=>{
+    return dbConnection.getAgentCollection().then((agModel)=>{
+        return agModel.insertMany(agentData).then( data=>{
             if(data){
-                return userCollection.getUserCollection().then(uCollection =>{
-                    return uCollection.insertMany(userData).then( data=>{
+                return dbConnection.getUserCollection().then(uModel =>{
+                    return uModel.insertMany(userData).then( data=>{
                         if(data){
-                            return userAccountCollection.getUserAccountCollection().then(uACollection =>{
-                                return uACollection.insertMany(userAccountData).then( data=>{
+                            return dbConnection.getUserAccountCollection().then(uAModel =>{
+                                return uAModel.insertMany(userAccountData).then( data=>{
                                     if(data){
-                                        return lobCollection.getLobCollection().then(lbCollection =>{
-                                            return lbCollection.insertMany(LobData).then( data=>{
+                                        return dbConnection.getLobCollection().then(lobModel =>{
+                                            return lobModel.insertMany(LobData).then( data=>{
                                                 if(data){
-                                                    return policyCarrierCollection.getPolicyCarrierCollection().then(polCollection =>{
-                                                        return polCollection.insertMany(PolicyCarrierData).then( data=>{
+                                                    return dbConnection.getPolicyCarrierCollection().then(polModel =>{
+                                                        return polModel.insertMany(PolicyCarrierData).then( data=>{
                                                             if(data){
-                                                                return policyInfoCollection.getPolicyInfoCollection().then(polInfoCollection =>{
-                                                                    return polInfoCollection.insertMany(PolicyInfoData).then( data=>{
+                                                                return dbConnection.getPolicyInfoCollection().then(polInfoModel =>{
+                                                                    return polInfoModel.insertMany(PolicyInfoData).then( data=>{
                                                                         if(data){
                                                                             return "Insertion successfull";
                                                                         }
