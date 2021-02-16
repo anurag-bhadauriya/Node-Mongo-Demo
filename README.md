@@ -1,4 +1,8 @@
-Please sample sheet in the same directory on which you are going to perform the below tasks,
+Contains API's to insert the csv sheet data to various collection in the mongoDb.
+MongoDb port : 27017
+Node server used: Express
+
+Placed sample sheet in the same directory on which we are going to perform the below tasks,
 
 1) Agent - Agent Name
 2) User - firstname, Dob, address, phone number, state, zip code, email, gender, userType
@@ -21,7 +25,7 @@ API List
 POST : http://localhost:3000/api/upload  
 Body : in form of key value, where key = data, value = csv file
 
-#2 API to uplload the CSV file using async method  
+#2 API to upload the CSV file using async method  
 POST : http://localhost:3000/api/upload/async  
 Body : in form of key value, where key = data, value = csv file
 
